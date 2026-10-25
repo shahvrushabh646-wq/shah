@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   BookOpen, Brain, CheckCircle2, ChevronLeft, ChevronRight, ClipboardList,
-  GraduationCap, LayoutDashboard, Menu, Target, X, Zap,
+  GraduationCap, LayoutDashboard, Menu, X,
 } from 'lucide-react';
 import {
   TOPICS, QUIZZES,
@@ -155,8 +155,7 @@ export default function App() {
           <div className="border-t px-4 py-2 md:hidden">
             {nav.map((n) => (
               <button key={n.id} type="button" onClick={() => { setTab(n.id); setMobileOpen(false); }}
-                className={`flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium ${
-                  tab === n.id ? 'bg-sky-50 text-sky-700' : 'text-slate-700'}`}>
+                className={`flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium ${\n                  tab === n.id ? 'bg-sky-50 text-sky-700' : 'text-slate-700'}`}>
                 <n.icon className="h-4 w-4" />{n.label}
               </button>
             ))}
@@ -354,10 +353,18 @@ export default function App() {
                         <p className="mt-1 text-sm text-slate-600">{topic.summary}</p>
                       </div>
                       <div className="flex flex-col items-end gap-2">
-                        <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-semibold text-slate-600">{statusLabel(prog?.status)}</span>
+                        <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">{statusLabel(prog?.status)}</span>
                         <div className="flex gap-2">
-                          <button type="button" onClick={() => openLearn(topic.id)} className="rounded-lg bg-sky-600 px-3 py-1.5 text-xs font-semibold text-white">Teach me</button>
-                          {quiz && <button type="button" onClick={() => startQuiz(quiz)} className="rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white">Quiz</button>}
+                          <button type="button" onClick={() => openLearn(topic.id)}
+                            className="rounded-lg bg-sky-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-sky-700">
+                            Learn
+                          </button>
+                          {quiz && (
+                            <button type="button" onClick={() => startQuiz(quiz)}
+                              className="rounded-lg bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50">
+                              Practice
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -374,58 +381,95 @@ export default function App() {
               <h1 className="text-2xl font-bold tracking-tight">Practice</h1>
               <p className="mt-1 text-sm text-slate-600">Topic drills and sectionals</p>
             </div>
-            {activeQuiz ? (
+
+            {activeQuiz && !submitted ? (
               <section className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
-                <div className="flex justify-between gap-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <div>
                     <h2 className="text-lg font-semibold">{activeQuiz.title}</h2>
-                    <p className="text-sm text-slate-500">{activeQuiz.questions.length} questions</p>
+                    <p className="text-sm text-slate-500">{activeQuiz.subtitle} · {activeQuiz.questions.length} questions · pass {activeQuiz.passingPercent}%</p>
                   </div>
-                  <button type="button" onClick={() => { setActiveQuiz(null); setSubmitted(false); setAnswers({}); }} className="text-sm text-slate-500">← Back</button>
+                  <button type="button" onClick={() => setActiveQuiz(null)} className="text-sm text-slate-500 hover:text-slate-800">Close</button>
                 </div>
                 <div className="mt-6 space-y-6">
                   {activeQuiz.questions.map((q, qi) => (
-                    <div key={q.id} className="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
-                      <div className="text-xs font-semibold text-slate-400">Q{qi + 1}</div>
-                      <p className="mt-1 font-medium">{q.questionText}</p>
-                      <div className="mt-3 space-y-2">
-                        {q.options.map((opt, oi) => {
-                          const selected = answers[q.id] === oi;
-                          const correct = submitted && q.correctOptionIndex === oi;
-                          const wrong = submitted && selected && !correct;
-                          return (
-                            <button key={oi} type="button" disabled={submitted} onClick={() => setAnswers((a) => ({ ...a, [q.id]: oi }))}
-                              className={`flex w-full gap-3 rounded-lg border px-3 py-2.5 text-left text-sm ${
-                                correct ? 'border-emerald-300 bg-emerald-50' : wrong ? 'border-rose-300 bg-rose-50' : selected ? 'border-sky-400 bg-sky-50' : 'border-slate-200 bg-white'}`}>
-                              <span className="font-bold opacity-70">{String.fromCharCode(65 + oi)}</span><span>{opt}</span>
-                            </button>
-                          );
-                        })}
+                    <div key={q.id} className="rounded-xl border border-slate-100 p-4">
+                      <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">Q{qi + 1}</div>
+                      <p className="mt-1 font-medium text-slate-800">{q.questionText}</p>
+                      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                        {q.options.map((opt, oi) => (
+                          <button key={oi} type="button" onClick={() => setAnswers((a) => ({ ...a, [q.id]: oi }))}
+                            className={`rounded-lg border px-3 py-2.5 text-left text-sm ${
+                              answers[q.id] === oi ? 'border-sky-500 bg-sky-50 text-sky-900' : 'border-slate-200 hover:bg-slate-50'}`}>
+                            <span className="mr-2 font-mono text-xs text-slate-400">{String.fromCharCode(65 + oi)}</span>{opt}
+                          </button>
+                        ))}
                       </div>
-                      {submitted && <div className="mt-3 rounded-lg bg-white p-3 text-sm ring-1 ring-slate-100"><span className="font-medium">Explanation: </span>{q.explanation}</div>}
                     </div>
                   ))}
                 </div>
-                {!submitted ? (
-                  <button type="button" onClick={submitQuiz} className="mt-6 rounded-xl bg-sky-600 px-8 py-3 text-sm font-semibold text-white">Submit answers</button>
-                ) : (
-                  <div className="mt-6 flex items-center gap-4 rounded-xl border bg-slate-50 p-4">
-                    <CheckCircle2 className="h-6 w-6 text-emerald-600" />
-                    <div><div className="font-semibold">Quiz submitted</div><div className="text-sm text-slate-600">Score saved.</div></div>
-                  </div>
-                )}
+                <div className="mt-6 flex justify-end">
+                  <button type="button" onClick={submitQuiz}
+                    disabled={Object.keys(answers).length < activeQuiz.questions.length}
+                    className="rounded-lg bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-sky-700 disabled:opacity-40">
+                    Submit quiz
+                  </button>
+                </div>
+              </section>
+            ) : activeQuiz && submitted ? (
+              <section className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
+                {(() => {
+                  const score = activeQuiz.questions.filter((q) => answers[q.id] === q.correctOptionIndex).length;
+                  const total = activeQuiz.questions.length;
+                  const pct = Math.round((score / total) * 100);
+                  const passed = pct >= activeQuiz.passingPercent;
+                  return (
+                    <>
+                      <div className={`rounded-xl px-4 py-3 ${passed ? 'bg-emerald-50 text-emerald-800' : 'bg-amber-50 text-amber-800'}`}>
+                        <div className="text-lg font-bold">{passed ? 'Passed!' : 'Keep practicing'}</div>
+                        <div className="text-sm">Score {score}/{total} ({pct}%) · Pass mark {activeQuiz.passingPercent}%</div>
+                      </div>
+                      <div className="mt-6 space-y-4">
+                        {activeQuiz.questions.map((q, qi) => {
+                          const chosen = answers[q.id];
+                          const ok = chosen === q.correctOptionIndex;
+                          return (
+                            <div key={q.id} className="rounded-xl border border-slate-100 p-4">
+                              <div className="flex items-start gap-2">
+                                <span className={`mt-0.5 text-sm ${ok ? 'text-emerald-600' : 'text-rose-600'}`}>{ok ? '✓' : '✗'}</span>
+                                <div>
+                                  <p className="font-medium">Q{qi + 1}. {q.questionText}</p>
+                                  <p className="mt-1 text-sm text-slate-600">Your answer: {q.options[chosen] ?? '—'}</p>
+                                  {!ok && <p className="text-sm text-emerald-700">Correct: {q.options[q.correctOptionIndex]}</p>}
+                                  <p className="mt-1 text-xs text-slate-500">{q.explanation}</p>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <div className="mt-6 flex flex-wrap gap-2">
+                        <button type="button" onClick={() => { setActiveQuiz(null); setSubmitted(false); }}
+                          className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white">Back to list</button>
+                        <button type="button" onClick={() => { setAnswers({}); setSubmitted(false); }}
+                          className="rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white">Retry</button>
+                      </div>
+                    </>
+                  );
+                })()}
               </section>
             ) : (
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {QUIZZES.map((quiz) => {
                   const past = attempts.filter((a) => a.quizId === quiz.id);
-                  const best = past.reduce((m, a) => Math.max(m, a.accuracyPercent), 0);
+                  const best = past.length ? Math.max(...past.map((a) => a.accuracyPercent)) : null;
                   return (
                     <button key={quiz.id} type="button" onClick={() => startQuiz(quiz)}
-                      className="rounded-2xl border border-slate-200 bg-white p-5 text-left hover:border-sky-300">
-                      <div className="text-xs font-semibold uppercase text-sky-600">{quiz.examFormat.replace('_', ' ')}</div>
+                      className="rounded-2xl border border-slate-200 bg-white p-5 text-left transition hover:border-sky-300 hover:shadow-sm">
+                      <div className="text-xs font-semibold uppercase tracking-wide text-sky-600">{quiz.subject}</div>
                       <h3 className="mt-1 font-semibold">{quiz.title}</h3>
-                      <div className="mt-4 flex gap-2 text-xs text-slate-500">
+                      <p className="mt-1 text-sm text-slate-500">{quiz.subtitle}</p>
+                      <div className="mt-3 flex flex-wrap gap-2 text-xs">
                         <span className="rounded-md bg-slate-100 px-2 py-0.5">{quiz.questions.length} Qs</span>
                         {past.length > 0 && <span className="rounded-md bg-emerald-50 px-2 py-0.5 text-emerald-700">Best {best}%</span>}
                       </div>
