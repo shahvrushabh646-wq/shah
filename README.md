@@ -1,21 +1,47 @@
 # Mitra AI Tutor — CMAT 2026
 
-Study dashboard with a 35-module CMAT course, topic lessons, practice quizzes and local progress tracking.
+A CMAT study dashboard with a 35-module course, step-by-step lessons, local progress tracking and downloadable Hinglish notes across all five exam sections.
 
-## Course coverage
+## What is included
 
-Every topic lesson follows four stages: foundations, method, exam-level application, and common traps, followed by a worked example. The course covers:
+- **35 in-app modules** across Quantitative Techniques & Data Interpretation, Logical Reasoning, Language Comprehension, General Awareness, and Innovation & Entrepreneurship.
+- **Five editable Hinglish study guides** with basic-to-advanced explanations, worked examples, formula and process maps, common traps, and explained practice.
+- **Expanded syllabus coverage map** connecting each topic group in the supplied CMAT 2026 expanded checklist to the corresponding app lesson.
+- **Practice and progress tools** with sectional navigation, topic learning states and saved quiz attempts.
 
-- **Quantitative Techniques and Data Interpretation:** percentages, profit/loss, interest, ratios, averages, mixtures, number properties, indices and surds, work, speed, algebra, geometry, counting, probability, and charts/tables.
-- **Logical Reasoning:** series, coding, analogy, relations, directions, syllogisms and Venn diagrams, seating puzzles, ordering/ranking, statement and assumption questions, and data sufficiency.
-- **Language Comprehension:** reading comprehension, vocabulary, grammar, sentence correction, para-jumbles, cloze and contextual word choice.
-- **General Awareness:** polity, economy, banking, history, geography, science and units, culture, awards, sports and current affairs.
-- **Innovation and Entrepreneurship:** opportunity and business models, MVP and innovation, startup finance and venture capital, marketing, intellectual property, policy and ethics.
+## Hinglish study guides
 
-Examples and emphasis were cross-checked against the supplied CMAT 2025 Slot 1 and Slot 2 papers. Current-affairs facts should be refreshed from dated, reliable sources as the exam date approaches.
+Open the dashboard’s **Hinglish Study Library** to download the Word guides, or use these links:
+
+| Subject | Guide |
+|---|---|
+| Quantitative Techniques & Data Interpretation | [Download](public/study-guides/CMAT_Hinglish_Quantitative_DI_Notes.docx) |
+| Logical Reasoning | [Download](public/study-guides/CMAT_Hinglish_Logical_Reasoning_Notes.docx) |
+| Language Comprehension | [Download](public/study-guides/CMAT_Hinglish_Language_Comprehension_Notes.docx) |
+| General Awareness | [Download](public/study-guides/CMAT_Hinglish_General_Awareness_Notes.docx) |
+| Innovation & Entrepreneurship | [Download](public/study-guides/CMAT_Hinglish_Innovation_Entrepreneurship_Notes.docx) |
+
+The guides contain 25 topic modules and 30 explained practice entries per module, including five additional multistep challenge questions per module. See [the complete topic-group coverage map](docs/CMAT_2026_HINGLISH_COVERAGE_MAP.md).
+
+## Syllabus and changing facts
+
+The student-supplied `CMAT_2026_Detailed_Expanded_Syllabus.pdf` describes itself as a practical study checklist expanded from broad syllabus headings. Its added subtopics are preparation guidance, not a guarantee that each item is officially prescribed or will appear. Check the [official NTA CMAT site](https://exams.nta.ac.in/CMAT/) for the latest year’s syllabus and exam rules.
+
+General Awareness and entrepreneurship notes distinguish stable concepts from changing facts. Verify current affairs, government-scheme eligibility, office holders, rates and economic figures using dated official sources close to the exam.
+
+The supplied 2025 Slot 1 and Slot 2 PDFs did not expose complete question bodies in text extraction. The project’s practice questions are original and syllabus-aligned; the project does not claim a complete question-by-question paper analysis or reproduce candidate response records.
+
+## Run locally
 
 ```bash
-npm install && npm run dev
+npm install
+npm run dev
 ```
 
-Deploy on Vercel by importing this repo (no env vars required for dashboard).
+Build the production site with:
+
+```bash
+npm run build
+```
+
+Deploy on Vercel by importing this repository. No environment variables are required for the study dashboard.

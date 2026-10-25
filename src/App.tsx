@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   BookOpen, Brain, CheckCircle2, ChevronLeft, ChevronRight, ClipboardList,
-  GraduationCap, LayoutDashboard, Menu, X,
+  Download, GraduationCap, LayoutDashboard, Menu, X,
 } from 'lucide-react';
 import {
   TOPICS, QUIZZES,
@@ -199,6 +199,35 @@ export default function App() {
                   Start teaching <ChevronRight className="h-4 w-4" />
                 </button>
               </div>
+            </section>
+            <section className="rounded-2xl border border-teal-200 bg-gradient-to-br from-teal-50 via-white to-white p-5 sm:p-6">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-wide text-teal-700">Hinglish Study Library</div>
+                  <h2 className="mt-1 text-lg font-semibold">Detailed notes, from basics to CMAT-level practice</h2>
+                  <p className="mt-1 max-w-3xl text-sm text-slate-600">Five editable subject guides include step-by-step explanations, worked examples, process maps, common traps and explained questions. Download a volume to study offline.</p>
+                </div>
+                <BookOpen className="h-5 w-5 text-teal-700" />
+              </div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {[
+                  { title: 'Quantitative Techniques & DI', file: 'CMAT_Hinglish_Quantitative_DI_Notes.docx' },
+                  { title: 'Logical Reasoning', file: 'CMAT_Hinglish_Logical_Reasoning_Notes.docx' },
+                  { title: 'Language Comprehension', file: 'CMAT_Hinglish_Language_Comprehension_Notes.docx' },
+                  { title: 'General Awareness', file: 'CMAT_Hinglish_General_Awareness_Notes.docx' },
+                  { title: 'Innovation & Entrepreneurship', file: 'CMAT_Hinglish_Innovation_Entrepreneurship_Notes.docx' },
+                ].map((guide) => (
+                  <a key={guide.file} href={`/study-guides/${guide.file}`} download
+                    className="flex min-h-12 items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:border-teal-300 hover:bg-teal-50 hover:text-teal-800">
+                    <span>{guide.title}</span><Download className="h-4 w-4 shrink-0" />
+                  </a>
+                ))}
+              </div>
+              <a href="https://github.com/shahvrushabh646-wq/shah/blob/main/docs/CMAT_2026_HINGLISH_COVERAGE_MAP.md"
+                target="_blank" rel="noreferrer"
+                className="mt-3 inline-flex text-sm font-semibold text-teal-800 underline decoration-teal-300 underline-offset-4 hover:text-teal-950">
+                View the expanded syllabus coverage map
+              </a>
             </section>
             <section className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
               <h2 className="text-lg font-semibold">Section mastery</h2>
