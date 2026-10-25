@@ -5,7 +5,7 @@ export type SubjectKey =
   | 'Quantitative Techniques'
   | 'Logical Reasoning'
   | 'Language Comprehension'
-  | 'General Knowledge'
+  | 'General Awareness'
   | 'Innovation & Entrepreneurship';
 
 export type TopicStatus =

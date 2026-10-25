@@ -43,7 +43,7 @@ export default function App() {
   const sectionStats = useMemo(() => {
     const subjects: SubjectKey[] = [
       'Quantitative Techniques', 'Logical Reasoning', 'Language Comprehension',
-      'General Knowledge', 'Innovation & Entrepreneurship',
+      'General Awareness', 'Innovation & Entrepreneurship',
     ];
     return subjects.map((subject) => {
       const topics = TOPICS.filter((t) => t.subject === subject);
@@ -155,7 +155,8 @@ export default function App() {
           <div className="border-t px-4 py-2 md:hidden">
             {nav.map((n) => (
               <button key={n.id} type="button" onClick={() => { setTab(n.id); setMobileOpen(false); }}
-                className={`flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium ${\n                  tab === n.id ? 'bg-sky-50 text-sky-700' : 'text-slate-700'}`}>
+                className={`flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium ${
+                  tab === n.id ? 'bg-sky-50 text-sky-700' : 'text-slate-700'}`}>
                 <n.icon className="h-4 w-4" />{n.label}
               </button>
             ))}
@@ -221,7 +222,7 @@ export default function App() {
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
                 <h1 className="text-2xl font-bold tracking-tight">Teach Me</h1>
-                <p className="mt-1 text-sm text-slate-600">Mitra teaches every topic step by step</p>
+                <p className="mt-1 text-sm text-slate-600">Build from the foundation, practise the method, then apply it at exam level.</p>
               </div>
               <div className="text-xs font-medium text-slate-500">Topic {topicIndex + 1} of {TOPICS.length}</div>
             </div>
@@ -256,7 +257,7 @@ export default function App() {
                     </div>
                   ) : (
                     <div>
-                      <div className="text-xs font-semibold uppercase tracking-wide text-emerald-600">Worked example</div>
+                      <div className="text-xs font-semibold uppercase tracking-wide text-emerald-600">Worked example · Exam mastery</div>
                       <h3 className="mt-2 text-lg font-semibold">{learnTopic.example.question}</h3>
                       <ol className="mt-4 list-decimal space-y-2 pl-5 text-[15px] text-slate-700">
                         {learnTopic.example.steps.map((s, i) => (<li key={i}>{s}</li>))}
@@ -297,12 +298,15 @@ export default function App() {
               </section>
               <aside className="space-y-4">
                 <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                  <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Key concepts</div>
+                  <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Topic checklist · 0 to exam mastery</div>
                   <ul className="mt-2 space-y-1.5">
                     {learnTopic.keyConcepts.map((c) => (
                       <li key={c} className="flex items-center gap-2 text-sm"><CheckCircle2 className="h-3.5 w-3.5 text-sky-500" />{c}</li>
                     ))}
                   </ul>
+                  <div className="mt-3 rounded-lg bg-slate-50 px-3 py-2 text-[11px] leading-relaxed text-slate-500">
+                    Complete each lesson in order: Level 0 foundation → Level 1 method → Level 2 exam application → Level 3 common traps → worked example.
+                  </div>
                 </div>
                 <div className="rounded-2xl border border-slate-200 bg-white p-4">
                   <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">All topics</div>
@@ -327,10 +331,10 @@ export default function App() {
           <div className="space-y-6">
             <div>
               <h1 className="text-2xl font-bold tracking-tight">Study Plan</h1>
-              <p className="mt-1 text-sm text-slate-600">Open any topic to get taught, then practice</p>
+              <p className="mt-1 text-sm text-slate-600">A {TOPICS.length}-module course across all five CMAT sections. Each module builds from foundations to exam-level application.</p>
             </div>
             <div className="flex flex-wrap gap-2">
-              {(['All', 'Quantitative Techniques', 'Logical Reasoning', 'Language Comprehension', 'General Knowledge', 'Innovation & Entrepreneurship'] as const).map((f) => (
+              {(['All', 'Quantitative Techniques', 'Logical Reasoning', 'Language Comprehension', 'General Awareness', 'Innovation & Entrepreneurship'] as const).map((f) => (
                 <button key={f} type="button" onClick={() => setFilter(f)}
                   className={`rounded-full px-3 py-1 text-xs font-medium ${
                     filter === f ? 'bg-sky-600 text-white' : 'bg-white text-slate-600 ring-1 ring-slate-200'}`}>
